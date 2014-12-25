@@ -4,9 +4,9 @@ angular.module('ec2pricesApp')
   .filter('instanceStorageSize', () ->
     return (input) ->
       if not input.storage
-        return 'EBS only'
+        return '0 GB (EBS only)'
 
-      driveSize = input.storage.size + 'GB'
+      driveSize = input.storage.size + ' GB'
       deviceCount = input.storage.devices
       deviceCount = if deviceCount > 1 then ' x ' + deviceCount else ''
       ssd = if input.storage.ssd then ' (SSD)' else ''
@@ -15,9 +15,9 @@ angular.module('ec2pricesApp')
   .filter('instanceTotalStorageSize', () ->
     return (input) ->
       if not input.storage
-        return 'EBS only'
+        return '0 GB'
 
-      return input.storage.size * input.storage.devices + 'GB'
+      return input.storage.size * input.storage.devices + ' GB'
   )
   .filter('instancePrice', () ->
     return (input, region, os) ->
