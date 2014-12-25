@@ -12,15 +12,16 @@ angular.module('ec2pricesApp')
 
     instancesFactory.getInstances().then((instances) ->
       $scope.instances = instances
+
+      instancesFactory.getRegions().then((regions) ->
+        $scope.regions = regions
+      )
+
+      instancesFactory.getOperatingSystems().then((operatingSystems) ->
+        $scope.operatingSystems = operatingSystems
+      )
     )
 
-    instancesFactory.getRegions().then((regions) ->
-      $scope.regions = regions
-    )
-
-    instancesFactory.getOperatingSystems().then((operatingSystems) ->
-      $scope.operatingSystems = operatingSystems
-    )
 
     $scope.displayConfig = {
       instanceName: true,

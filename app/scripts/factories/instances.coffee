@@ -7,7 +7,7 @@ angular.
 
     getInstances = () ->
       if cachedData
-        $q.when(cachedData)
+        return $q.when(cachedData)
 
       return $http.get('/instances.json').then((data) ->
         cachedData = data
