@@ -11,6 +11,7 @@ module.exports = function (grunt) {
 
   // Load grunt tasks automatically
   require('load-grunt-tasks')(grunt);
+  grunt.loadNpmTasks('grunt-aws-s3');
 
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
@@ -358,9 +359,11 @@ module.exports = function (grunt) {
             '*.{ico,png,txt}',
             '.htaccess',
             '*.html',
+            'scripts/{,*/}*.html',
             'views/{,*/}*.html',
             'images/{,*/}*.{webp}',
-            'fonts/{,*/}*.*'
+            'fonts/{,*/}*.*',
+            'instances.json'
           ]
         }, {
           expand: true,
@@ -412,7 +415,28 @@ module.exports = function (grunt) {
         autoWatch: true,
         singleRun: false
       }
+    },
+
+    /* jshint ignore:start */
+    aws_s3: {
+      options: {
+        uploadConcurrency: 5,
+        sslEnabled: true
+      },
+      production: {
+        options: {
+          bucket: 'ec2pric.es',
+          differential: true
+        },
+        files: [{
+          expand: true,
+          cwd: 'dist',
+          src: ['**'],
+          dest: '/'
+        }]
+      }
     }
+    /* jshint ignore:end */
   });
 
 
@@ -465,5 +489,10 @@ module.exports = function (grunt) {
     'newer:jshint',
     'test',
     'build'
+  ]);
+
+  grunt.registerTask('deploy', [
+    'default',
+    'aws_s3:production'
   ]);
 };
