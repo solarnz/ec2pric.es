@@ -1,0 +1,15 @@
+<td ng-if='displayConfig.instanceName'>
+  {{instance.instance_type}}
+</td>
+
+<td ng-if='displayConfig.storageSize'>
+  {{instance | instanceStorageSize}}
+</td>
+
+<td ng-if='displayConfig.storageTotalSize'>
+  {{instance | instanceTotalStorageSize}}
+</td>
+
+<td ng-if='displayConfig.price'>
+  {{instance | instancePrice:displayConfig.region:displayConfig.os}}
+</td>
