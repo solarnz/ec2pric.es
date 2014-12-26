@@ -340,6 +340,13 @@ module.exports = function (grunt) {
       }
     },
 
+    html2js: {
+      main: {
+        src: ['<%= yeoman.app %>/scripts/{,*/}*.html'],
+        dest: '.tmp/scripts/templates.js'
+      }
+    },
+
     // Replace Google CDN references
     cdnify: {
       dist: {
@@ -359,8 +366,6 @@ module.exports = function (grunt) {
             '*.{ico,png,txt}',
             '.htaccess',
             '*.html',
-            'scripts/{,*/}*.html',
-            'views/{,*/}*.html',
             'images/{,*/}*.{webp}',
             'fonts/{,*/}*.*',
             'instances.json'
@@ -399,7 +404,8 @@ module.exports = function (grunt) {
         'coffee',
         'compass:dist',
         'imagemin',
-        'svgmin'
+        'svgmin',
+        'html2js'
       ]
     },
 
