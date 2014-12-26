@@ -21,6 +21,7 @@ module.exports = (config) ->
       'bower_components/angular-route/angular-route.js'
       'bower_components/angular-touch/angular-touch.js'
       'app/scripts/**/*.coffee'
+      'app/scripts/**/*.html'
       'test/mock/**/*.coffee'
       'test/spec/**/*.coffee'
     ],
@@ -52,6 +53,7 @@ module.exports = (config) ->
       'karma-phantomjs-launcher'
       'karma-jasmine'
       'karma-coffee-preprocessor'
+      'karma-ng-html2js-preprocessor'
     ]
 
     # enable / disable watching file and executing tests whenever any file changes
@@ -63,9 +65,15 @@ module.exports = (config) ->
 
     colors: true
 
-    preprocessors: '**/*.coffee': ['coffee']
+    preprocessors:
+      '**/*.coffee': ['coffee'],
+      'app/scripts/**/*.html': ['html2js'],
 
     # Uncomment the following lines if you are using grunt's server to run the tests
     # proxies: '/': 'http://localhost:9000/'
     # URL root prevent conflicts with the site root
     # urlRoot: '_karma_'
+
+    ngHtml2JsPreprocessor: {
+      moduleName: 'ec2pricesApp-templates'
+    }

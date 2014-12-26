@@ -14,7 +14,8 @@ angular
     'ngCookies',
     'ngResource',
     'ngRoute',
-    'ngTouch'
+    'ngTouch',
+    'ec2pricesApp-templates',
   ])
   .config ($routeProvider) ->
     $routeProvider

@@ -61,6 +61,12 @@ module.exports = function (grunt) {
           '.tmp/scripts/{,*/}*.js',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
+      },
+      html2js: {
+        files: [
+          '<%= yeoman.app %>/scripts/{,*/}*.html'
+        ],
+        tasks: ['html2js']
       }
     },
 
@@ -341,6 +347,10 @@ module.exports = function (grunt) {
     },
 
     html2js: {
+      options: {
+        module: 'ec2pricesApp-templates',
+        singleModule: true,
+      },
       main: {
         src: ['<%= yeoman.app %>/scripts/{,*/}*.html'],
         dest: '.tmp/scripts/templates.js'
@@ -394,7 +404,8 @@ module.exports = function (grunt) {
     concurrent: {
       server: [
         'coffee:dist',
-        'compass:server'
+        'compass:server',
+        'html2js'
       ],
       test: [
         'coffee',
