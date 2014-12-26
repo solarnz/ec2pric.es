@@ -10,7 +10,7 @@ angular.
         return $q.when(cachedData)
 
       return $http.get('/instances.json').then((data) ->
-        cachedData = data
+        cachedData = data.data
         return data.data
       )
 
