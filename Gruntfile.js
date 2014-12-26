@@ -431,7 +431,7 @@ module.exports = function (grunt) {
       },
       production: {
         options: {
-          bucket: 'ec2pric.es',
+          bucket: process.env.BUCKET,
           differential: true
         },
         files: [{
