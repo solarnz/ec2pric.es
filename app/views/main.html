@@ -16,7 +16,8 @@
     <td>Cost per hour</td>
   </thead>
   <tr
-    ng-repeat="instance in instances"
+    ng-repeat="instance in instances |
+      validInstances:displayConfig.region:displayConfig.os"
     instance="instance"
     display-config="displayConfig"
     >

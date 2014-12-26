@@ -26,3 +26,11 @@ angular.module('ec2pricesApp')
       else
         return ''
   )
+  .filter('validInstances', () ->
+    return (input, region, os) ->
+      # If the input is not 'truthy', just return it.
+      if not input
+        return input
+
+      return (i for i in input when i.pricing[region] and i.pricing[region][os])
+  )
