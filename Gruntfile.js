@@ -350,9 +350,13 @@ module.exports = function (grunt) {
       options: {
         module: 'ec2pricesApp-templates',
         singleModule: true,
+        base: '<%= yeoman.app %>',
       },
       main: {
-        src: ['<%= yeoman.app %>/scripts/{,*/}*.html'],
+        src: [
+          '<%= yeoman.app %>/scripts/{,*/}*.html',
+          '<%= yeoman.app %>/views/{,*/}*.html',
+        ],
         dest: '.tmp/scripts/templates.js'
       }
     },

@@ -8,7 +8,7 @@ angular.module('ec2pricesApp')
         instance: '=',
         displayConfig: '=',
       },
-      templateUrl: '/scripts/directives/instance.html',
+      templateUrl: 'scripts/directives/instance.html',
       link: (scope, element, attributes) ->
         return
     }
