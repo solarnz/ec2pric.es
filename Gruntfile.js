@@ -441,8 +441,24 @@ module.exports = function (grunt) {
           dest: '/'
         }]
       }
-    }
+    },
     /* jshint ignore:end */
+
+    cloudfront: {
+      options: {
+        distributionId: process.env.DISTRIBUTION_ID,
+        listInvalidations: true,
+        region: 'us-east-1',
+        credentials: {}
+      },
+      production: {
+        CallerReference: Date.now().toString(),
+        Paths: {
+          Quantity: 1,
+          Items: [ '/index.html' ]
+        }
+      }
+    }
   });
 
 
@@ -499,6 +515,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('deploy', [
     'default',
-    'aws_s3:production'
+    'aws_s3:production',
+    'cloudfront:production'
   ]);
 };
