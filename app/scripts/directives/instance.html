@@ -2,13 +2,16 @@
   {{instance.instance_type}}
 </td>
 
+<td>{{instance.ECU}}</td>
+<td>{{instance.vCPU}}</td>
+<td>{{instance.memory}} GB</td>
+
 <td ng-if='displayConfig.storageSize'>
   {{instance | instanceStorageSize}}
 </td>
 
-<td ng-if='displayConfig.storageTotalSize'>
-  {{instance | instanceTotalStorageSize}}
-</td>
+<td><checkbox checked="instance.storage.ssd" /></td>
+<td><checkbox checked="instance.ebs_optimized" /></td>
 
 <td ng-if='displayConfig.price'>
   ${{instance | instancePrice:displayConfig.region:displayConfig.os}}
