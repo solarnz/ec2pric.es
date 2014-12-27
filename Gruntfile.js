@@ -469,7 +469,7 @@ module.exports = function (grunt) {
       production: {
         CallerReference: Date.now().toString(),
         Paths: {
-          Quantity: 1,
+          Quantity: 2,
           Items: [ '/index.html', '/instances.json' ]
         }
       }
