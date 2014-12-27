@@ -8,7 +8,7 @@
  # Controller of the ec2pricesApp
 ###
 angular.module('ec2pricesApp')
-  .controller('MainController', ($scope, instancesFactory) ->
+  .controller('MainController', ($filter, $scope, instancesFactory) ->
 
     instancesFactory.getInstances().then((instances) ->
       $scope.instances = instances
@@ -18,7 +18,14 @@ angular.module('ec2pricesApp')
       )
 
       instancesFactory.getOperatingSystems().then((operatingSystems) ->
-        $scope.operatingSystems = operatingSystems
+        $scope.operatingSystems = []
+
+        osNameFilter = $filter('operatingSystemName')
+        for name in operatingSystems
+          $scope.operatingSystems.unshift({
+            name: name,
+            humanName: osNameFilter(name)
+          })
       )
     )
 

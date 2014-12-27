@@ -1,8 +1,5 @@
 'use strict'
 
-beforeEach(module('ec2pricesApp'))
-beforeEach(module('ec2pricesApp-templates'))
-
 $compile = undefined
 $rootScope = undefined
 
@@ -10,6 +7,8 @@ element = undefined
 scope = undefined
 
 describe('Directive checkbox', () ->
+  beforeEach(module('ec2pricesApp'))
+  beforeEach(module('ec2pricesApp-templates'))
 
   beforeEach(inject((_$compile_, _$rootScope_) ->
     $compile = _$compile_

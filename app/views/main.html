@@ -7,7 +7,7 @@
   </select>
   <select
     class="form-control"
-    ng-options="operatingSystem for operatingSystem in operatingSystems track by operatingSystem"
+    ng-options="os.name as os.humanName for os in operatingSystems"
     ng-model="displayConfig.os"
     >
   </select>
