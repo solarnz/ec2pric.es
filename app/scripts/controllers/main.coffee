@@ -8,34 +8,29 @@
  # Controller of the ec2pricesApp
 ###
 angular.module('ec2pricesApp')
-  .controller('MainController', ($filter, $scope, instancesFactory) ->
+  .controller('MainController', ($filter, $scope, instancesFactory, \
+    operatingSystems, regions) ->
 
-    instancesFactory.getInstances().then((instances) ->
-      $scope.instances = instances
-
-      instancesFactory.getRegions().then((regions) ->
-        $scope.regions = regions
-      )
-
-      instancesFactory.getOperatingSystems().then((operatingSystems) ->
-        $scope.operatingSystems = []
-
-        osNameFilter = $filter('operatingSystemName')
-        for name in operatingSystems
-          $scope.operatingSystems.unshift({
-            name: name,
-            humanName: osNameFilter(name)
-          })
-      )
-    )
-
-
-    $scope.displayConfig = {
-      instanceName: true,
-      storageSize: true,
-      storageTotalSize: true,
-      price: true,
-      region: 'us-east-1',
-      os: 'linux',
-    }
+  $scope.regions = (
+    {name: name, humanName: $filter('regionName')(name)} \
+    for name in regions
   )
+
+  $scope.operatingSystems = (
+    {name: name, humanName: $filter('operatingSystemName')(name)} \
+    for name in operatingSystems
+  )
+
+  instancesFactory.getInstances().then((instances) ->
+    $scope.instances = instances
+  )
+
+  $scope.displayConfig = {
+    instanceName: true,
+    storageSize: true,
+    storageTotalSize: true,
+    price: true,
+    region: 'us-east-1',
+    os: 'linux',
+  }
+)

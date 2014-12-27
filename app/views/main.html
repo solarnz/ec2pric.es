@@ -1,7 +1,7 @@
 <form class="form-inline">
   <select
     class="form-control"
-    ng-options="region for region in regions track by region"
+    ng-options="region.name as region.humanName for region in regions"
     ng-model="displayConfig.region"
     >
   </select>
