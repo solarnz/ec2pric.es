@@ -65,9 +65,10 @@ module.exports = (config) ->
 
     colors: true
 
-    preprocessors:
+    preprocessors: {
       '**/*.coffee': ['coffee'],
-      'app/scripts/**/*.html': ['html2js'],
+      '**/*.html': ['ng-html2js'],
+    }
 
     # Uncomment the following lines if you are using grunt's server to run the tests
     # proxies: '/': 'http://localhost:9000/'
@@ -75,5 +76,6 @@ module.exports = (config) ->
     # urlRoot: '_karma_'
 
     ngHtml2JsPreprocessor: {
+      stripPrefix: 'app/',
       moduleName: 'ec2pricesApp-templates'
     }
