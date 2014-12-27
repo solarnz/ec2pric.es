@@ -45,6 +45,14 @@ describe('Filter validInstances', () ->
     expect(output).toEqual([])
   )
 
+  it('should filter out instances that have a price of N/A', () ->
+    instances = [instanceMock()]
+    instances[0].pricing['us-east-1'].mswin = 'N/A'
+
+    output = filter(instances, 'us-east-1', 'mswin')
+    expect(output).toEqual([])
+  )
+
   it('should return instances that are in the region with the os', () ->
     instances = [instanceMock()]
 

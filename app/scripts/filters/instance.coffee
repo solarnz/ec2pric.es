@@ -32,5 +32,8 @@ angular.module('ec2pricesApp')
       if not input
         return input
 
-      return (i for i in input when i.pricing[region] and i.pricing[region][os])
+      return (i for i in input when i.pricing[region] and
+        i.pricing[region][os] and
+        i.pricing[region][os] != 'N/A'
+      )
   )
