@@ -222,8 +222,8 @@ def scrape(data_file):
     with open(data_file, 'w') as f:
         json.dump([i.to_dict() for i in all_instances],
                   f,
-                  indent=2,
-                  separators=(',', ': '))
+                  indent=None,
+                  separators=(',', ':'))
 
 if __name__ == '__main__':
-    scrape('www/instances.json')
+    scrape('app/instances.json')
