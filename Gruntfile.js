@@ -63,9 +63,10 @@ module.exports = function (grunt) {
       },
       html2js: {
         files: [
-          '<%= yeoman.app %>/scripts/{,*/}*.html'
+          '<%= yeoman.app %>/scripts/{,*/}*.html',
+          '<%= yeoman.app %>/views/{,*/}*.html'
         ],
-        tasks: ['html2js']
+        tasks: ['newer:html2js']
       }
     },
 
