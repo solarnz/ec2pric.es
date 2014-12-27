@@ -1,13 +1,18 @@
-<select
-  ng-options="region for region in regions track by region"
-  ng-model="displayConfig.region"
-  >
-</select>
-<select
-  ng-options="operatingSystem for operatingSystem in operatingSystems track by operatingSystem"
-  ng-model="displayConfig.os"
-  >
-</select>
+<form class="form-inline">
+  <select
+    class="form-control"
+    ng-options="region for region in regions track by region"
+    ng-model="displayConfig.region"
+    >
+  </select>
+  <select
+    class="form-control"
+    ng-options="operatingSystem for operatingSystem in operatingSystems track by operatingSystem"
+    ng-model="displayConfig.os"
+    >
+  </select>
+</form>
+
 <table class='table'>
   <thead>
     <td>Instance Name</td>
