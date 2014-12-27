@@ -80,3 +80,24 @@ describe('Filter orderInstances', () ->
     expect(output).toEqual([instanceSmall, instanceLarge])
   )
 )
+
+describe('Filter memory', () ->
+  beforeEach(() ->
+    filter = $filter('memory')
+  )
+
+  it('should show in MB if less than 1 GB', () ->
+    output = filter(0.6)
+    expect(output).toEqual('600 MB')
+  )
+
+  it('should show in GB if equal 1 GB', () ->
+    output = filter(1)
+    expect(output).toEqual('1 GB')
+  )
+
+  it('should show in GB if more than 1 GB', () ->
+    output = filter(1.5)
+    expect(output).toEqual('1.5 GB')
+  )
+)

@@ -43,3 +43,10 @@ angular.module('ec2pricesApp')
         return item.pricing[region][os]
       )
   )
+  .filter('memory', () ->
+    return (input) ->
+      if input < 1
+        return (input * 1000) + ' MB'
+      else
+        return input + ' GB'
+  )

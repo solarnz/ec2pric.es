@@ -4,7 +4,7 @@
 
 <td>{{instance.ECU}}</td>
 <td>{{instance.vCPU}}</td>
-<td>{{instance.memory}} GB</td>
+<td>{{instance.memory | memory}}</td>
 
 <td ng-if='displayConfig.storageSize'>
   {{instance | instanceStorageSize}}
