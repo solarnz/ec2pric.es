@@ -17,7 +17,8 @@
   </thead>
   <tr
     ng-repeat="instance in instances |
-      validInstances:displayConfig.region:displayConfig.os"
+      validInstances:displayConfig.region:displayConfig.os |
+      orderInstances:displayConfig.region:displayConfig.os"
     instance="instance"
     display-config="displayConfig"
     >

@@ -60,3 +60,23 @@ describe('Filter validInstances', () ->
     expect(output).toEqual(instances)
   )
 )
+
+describe('Filter orderInstances', () ->
+  beforeEach(() ->
+    filter = $filter('orderInstances')
+  )
+
+  it('should order instances by the price', () ->
+    region = 'us-east-1'
+    os = 'linux'
+
+    instanceSmall = instanceMock()
+    instanceSmall.pricing[region][os] = "1.202"
+
+    instanceLarge = instanceMock()
+    instanceLarge.pricing[region][os] = "5.999"
+
+    output = filter([instanceLarge, instanceSmall], region, os)
+    expect(output).toEqual([instanceSmall, instanceLarge])
+  )
+)

@@ -37,3 +37,9 @@ angular.module('ec2pricesApp')
         i.pricing[region][os] != 'N/A'
       )
   )
+  .filter('orderInstances', ($filter) ->
+    return (input, region, os) ->
+      return $filter('orderBy')(input, (item) ->
+        return item.pricing[region][os]
+      )
+  )
