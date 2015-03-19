@@ -12,6 +12,7 @@ class Instance(object):
         self.vpc = None
         self.arch = ['x86_64']
         self.ECU = 0
+        self.linux_virtualization_types = []
 
     def to_dict(self):
         d = dict(family=self.family,
@@ -22,8 +23,11 @@ class Instance(object):
                  memory=self.memory,
                  ebs_optimized=self.ebs_optimized,
                  network_performance=self.network_performance,
+                 enhanced_networking=self.enhanced_networking,
                  pricing=self.pricing,
-                 vpc=self.vpc)
+                 vpc=self.vpc,
+                 linux_virtualization_types=self.linux_virtualization_types,
+                 generation=self.generation)
         if self.ebs_only:
             d['storage'] = None
         else:
@@ -36,6 +40,7 @@ class Instance(object):
 def totext(elt):
     s = etree.tostring(elt, method='text', encoding='unicode').strip()
     return re.sub(r'\*\d$', '', s)
+
 
 def parse_prev_generation_instance(tr):
     i = Instance()
@@ -65,16 +70,18 @@ def parse_prev_generation_instance(tr):
         i.ebs_only = True
     i.ebs_optimized = totext(cols[6]).lower() == 'yes'
     i.network_performance = totext(cols[7])
-    print "Parsed %s..." % (i.instance_type)
+    i.enhanced_networking = False
+    i.generation = 'previous'
+    # print "Parsed %s..." % (i.instance_type)
     return i
 
 
-def parse_instance(tr):
+def parse_instance(tr, inst2family):
     i = Instance()
     cols = tr.xpath('td')
     assert len(cols) == 12, "Expected 12 columns in the table, but got %d" % len(cols)
-    i.family = "Unknown" # totext(cols[0])
     i.instance_type = totext(cols[0])
+    i.family = inst2family.get(i.instance_type, "Unknown")
     # Some t2 instances support 32-bit arch
     # http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-resize.html#resize-limitations
     if i.instance_type in ('t2.micro', 't2.small'):
@@ -94,16 +101,42 @@ def parse_instance(tr):
         i.ebs_only = True
     i.ebs_optimized = totext(cols[10]).lower() == 'yes'
     i.network_performance = totext(cols[4])
-    print "Parsed %s..." % (i.instance_type)
+    i.enhanced_networking = totext(cols[11]).lower() == 'yes'
+    i.generation = 'current'
+    # print "Parsed %s..." % (i.instance_type)
     return i
 
 
+def _rindex_family(inst2family, details):
+    rows = details.xpath('tbody/tr')[0:]
+    for r in rows:
+        cols = r.xpath('td')
+        for i in totext(cols[1]).split('|'):
+            i = i.strip()
+            inst2family[i] = totext(cols[0])
+
+
+def scrape_families():
+    inst2family = dict()
+    tree = etree.parse(urllib2.urlopen("http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html"), etree.HTMLParser())
+    details = tree.xpath('//table')[3]
+    hdrs = details.xpath('thead/tr')[0]
+    if totext(hdrs[0]).lower() == 'instance family' and 'current generation' in totext(hdrs[1]).lower():
+       _rindex_family(inst2family, details)
+    details = tree.xpath('//table')[4]
+    hdrs = details.xpath('thead/tr')[0]
+    if totext(hdrs[0]).lower() == 'instance family' and 'previous generation' in totext(hdrs[1]).lower():
+       _rindex_family(inst2family, details)
+    return inst2family
+
+
 def scrape_instances():
+    inst2family = scrape_families()
     tree = etree.parse(urllib2.urlopen("http://aws.amazon.com/ec2/instance-types/"), etree.HTMLParser())
-    details = tree.xpath('//table')[7]
+    details = tree.xpath('//table')[8]
     rows = details.xpath('tbody/tr')[1:]
     assert len(rows) > 0, "Didn't find any table rows."
-    current_gen = [parse_instance(r) for r in rows]
+    current_gen = [parse_instance(r, inst2family) for r in rows]
 
     tree = etree.parse(urllib2.urlopen("http://aws.amazon.com/ec2/previous-generation/"), etree.HTMLParser())
     details = tree.xpath('//table')[5]
@@ -162,7 +195,7 @@ def add_pricing(imap, data, platform):
                 assert i_type in imap, "Unknown instance size: %s" % (i_type, )
                 inst = imap[i_type]
                 inst.pricing.setdefault(region, {})
-                print "%s/%s" % (region, i_type)
+                # print "%s/%s" % (region, i_type)
                 for col in i_spec['valueColumns']:
                     inst.pricing[region][platform] = col['prices']['USD']
 
@@ -174,7 +207,7 @@ def add_pricing(imap, data, platform):
                     inst.ECU = float(ecu)
 
 
-def add_pricing_data(instances):
+def add_pricing_info(instances):
     for i in instances:
         i.pricing = {}
     by_type = {i.instance_type: i for i in instances}
@@ -212,13 +245,53 @@ def add_eni_info(instances):
             'ips_per_eni': ip_per_eni}
 
 
+def add_linux_ami_info(instances):
+    """Add information about which virtualization options are supported.
+
+    Note that only HVM is supported for Windows instances so that info is not
+    given its own column.
+
+    """
+    checkmark_char = u'\u2713'
+    url = "http://aws.amazon.com/amazon-linux-ami/instance-type-matrix/"
+    tree = etree.parse(urllib2.urlopen(url), etree.HTMLParser())
+    table = tree.xpath('//div[@class="aws-table "]/table')[0]
+    rows = table.xpath('.//tr[./td]')[1:]  # ignore header
+
+    for r in rows:
+        supported_types = []
+        family_id = totext(r[0]).lower()
+        if not family_id:
+            continue
+        # We only check the primary EBS-backed values here since the 'storage'
+        # column will already be able to tell users whether or not the instance
+        # they're looking at can use EBS and/or instance-store AMIs.
+        if totext(r[1]) == checkmark_char:
+            supported_types.append('HVM')
+        if totext(r[3]) == checkmark_char:
+            supported_types.append('PV')
+        # G2 instances are special. Maybe we want a separate flag here in the
+        # future? Let's see how AWS evolves...
+        if totext(r[5]) == checkmark_char:
+            supported_types.append('HVM (Graphics)')
+
+        # Apply types for this instance family to all matching instances
+        for i in instances:
+            i_family_id = i.instance_type.split('.')[0]
+            if i_family_id == family_id:
+                i.linux_virtualization_types = supported_types
+
+
 def scrape(data_file):
     """Scrape AWS to get instance data"""
     print "Parsing instance types..."
     all_instances = scrape_instances()
     print "Parsing pricing info..."
-    add_pricing_data(all_instances)
+    add_pricing_info(all_instances)
+    print "Parsing ENI info..."
     add_eni_info(all_instances)
+    print "Parsing Linux AMI info..."
+    add_linux_ami_info(all_instances)
     with open(data_file, 'w') as f:
         json.dump([i.to_dict() for i in all_instances],
                   f,
