@@ -1,7 +1,9 @@
 {
   "name": "ec2prices",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "babel": "^4.7.16"
+  },
   "devDependencies": {
     "coffee-script": "^1.8.0",
     "grunt": "^0.4.5",
