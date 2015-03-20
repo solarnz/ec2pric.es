@@ -33,6 +33,15 @@ module.exports = function (grunt) {
         files: ['bower.json'],
         tasks: ['wiredep']
       },
+      babel: {
+        files: [
+          '<%= yeoman.app %>/scripts/{,*/}*.es6'
+        ]
+      },
+      babelTest: {
+        files: ['app/{,*}*.spec.es6'],
+        tasks: ['newer:babel:test', 'karma:unit']
+      },
       coffee: {
         files: [
           '<%= yeoman.app %>/scripts/{,*/}*.{coffee,litcoffee,coffee.md}'
@@ -192,6 +201,31 @@ module.exports = function (grunt) {
           expand: true,
           cwd: 'test/spec',
           src: '{,*/}*.coffee',
+          dest: '.tmp/spec',
+          ext: '.js'
+        }]
+      }
+    },
+
+    babel: {
+      options: {
+        sourceMap: true,
+        sourceRoot: ''
+      },
+      dist: {
+        files: [{
+          expand: true,
+          cwd: '<%= yeoman.app %>/scripts',
+          src: '{,*/}*.es6',
+          dest: '.tmp/scripts',
+          ext: '.js'
+        }]
+      },
+      test: {
+        files: [{
+          expand: true,
+          cwd: 'test/spec',
+          src: '{,*/}*.es6',
           dest: '.tmp/spec',
           ext: '.js'
         }]
@@ -408,15 +442,18 @@ module.exports = function (grunt) {
     concurrent: {
       server: [
         'coffee:dist',
+        'babel:dist',
         'compass:server',
         'html2js'
       ],
       test: [
         'coffee',
+        'babel',
         'compass'
       ],
       dist: [
         'coffee',
+        'babel',
         'compass:dist',
         'imagemin',
         'svgmin',

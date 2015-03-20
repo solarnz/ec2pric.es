@@ -20,10 +20,13 @@ module.exports = (config) ->
       'bower_components/angular-resource/angular-resource.js'
       'bower_components/angular-route/angular-route.js'
       'bower_components/angular-touch/angular-touch.js'
+      'app/scripts/**/*.es6'
       'app/scripts/**/*.coffee'
       'app/scripts/**/*.html'
       'test/mock/**/*.coffee'
+      'test/mock/**/*.es6'
       'test/spec/**/*.coffee'
+      'test/spec/**/*.es6'
     ],
 
     # list of files / patterns to exclude
@@ -52,6 +55,7 @@ module.exports = (config) ->
     plugins: [
       'karma-phantomjs-launcher'
       'karma-jasmine'
+      'karma-babel-preprocessor'
       'karma-coffee-preprocessor'
       'karma-ng-html2js-preprocessor'
     ]
@@ -66,6 +70,7 @@ module.exports = (config) ->
     colors: true
 
     preprocessors: {
+      '**/*.es6': ['babel'],
       '**/*.coffee': ['coffee'],
       '**/*.html': ['ng-html2js'],
     }
