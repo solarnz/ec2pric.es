@@ -84,3 +84,9 @@ module.exports = (config) ->
       stripPrefix: 'app/',
       moduleName: 'ec2pricesApp-templates'
     }
+
+    babelPreprocessor: {
+      options: {
+        experimental: true
+      }
+    }
