@@ -42,16 +42,6 @@ module.exports = function (grunt) {
         files: ['app/{,*}*.spec.es6'],
         tasks: ['newer:babel:test', 'karma:unit']
       },
-      coffee: {
-        files: [
-          '<%= yeoman.app %>/scripts/{,*/}*.{coffee,litcoffee,coffee.md}'
-        ],
-        tasks: ['newer:coffee:dist']
-      },
-      coffeeTest: {
-        files: ['app/{,*}*.spec.coffee'],
-        tasks: ['newer:coffee:test', 'karma:unit']
-      },
       compass: {
         files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
         tasks: ['compass:server', 'autoprefixer']
@@ -182,32 +172,6 @@ module.exports = function (grunt) {
       sass: {
         src: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
         ignorePath: /(\.\.\/){1,2}bower_components\//
-      }
-    },
-
-    // Compiles CoffeeScript to JavaScript
-    coffee: {
-      options: {
-        sourceMap: true,
-        sourceRoot: ''
-      },
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '<%= yeoman.app %>/scripts',
-          src: '{,*/}*.coffee',
-          dest: '.tmp/scripts',
-          ext: '.js'
-        }]
-      },
-      test: {
-        files: [{
-          expand: true,
-          cwd: 'test/spec',
-          src: '{,*/}*.coffee',
-          dest: '.tmp/spec',
-          ext: '.js'
-        }]
       }
     },
 
@@ -446,18 +410,15 @@ module.exports = function (grunt) {
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
-        'coffee:dist',
         'babel:dist',
         'compass:server',
         'html2js'
       ],
       test: [
-        'coffee',
         'babel',
         'compass'
       ],
       dist: [
-        'coffee',
         'babel',
         'compass:dist',
         'imagemin',
