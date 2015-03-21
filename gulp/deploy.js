@@ -28,8 +28,7 @@ module.exports = function(options) {
     rimraf(options.buildDir, function() {
       gulp.start(['default'], function() {
         var sources = [
-          options.buildDir + '/**',
-          '!' + options.buildDir + '/**/*.map'
+          options.buildDir + '/**'
         ];
 
         return gulp.src(sources, {base: ''})
