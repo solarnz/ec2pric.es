@@ -3,3 +3,9 @@ dist
 .tmp
 .sass-cache
 bower_components
+.envrc
+.awspublish*
+build
+coverage
+prod
+rev-manifest.json

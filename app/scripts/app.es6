@@ -2,12 +2,7 @@
 
 angular
 .module('ec2pricesApp', [
-  'ngAnimate',
-  'ngCookies',
-  'ngResource',
-  'ngRoute',
-  'ngTouch',
-  'ec2pricesApp-templates'
+  'ngRoute'
 ])
 .config(($provide, $routeProvider) => {
   $provide.value('regions', [
@@ -31,7 +26,7 @@ angular
 
   $routeProvider
     .when('/', {
-      templateUrl: 'views/main.html',
+      templateUrl: '/main.html',
       controller: 'MainController'
     })
     .otherwise({

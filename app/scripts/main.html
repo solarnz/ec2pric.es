@@ -15,14 +15,16 @@
 
 <table class='table table-hover' sticky-table>
   <thead>
-    <td>Instance Name</td>
-    <td>ECU</td>
-    <td>vCPU</td>
-    <td>RAM</td>
-    <td>Storage</td>
-    <td>SSD</td>
-    <td>EBS Optimised</td>
-    <td>Cost per hour</td>
+    <tr>
+      <td>Instance Name</td>
+      <td>ECU</td>
+      <td>vCPU</td>
+      <td>RAM</td>
+      <td>Storage</td>
+      <td>SSD</td>
+      <td>EBS Optimised</td>
+      <td>Cost per hour</td>
+  </tr>
   </thead>
   <tr
     ng-repeat="instance in instances |

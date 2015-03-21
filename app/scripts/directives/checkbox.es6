@@ -5,6 +5,6 @@ angular.module('ec2pricesApp')
     return {
       restrict: 'E',
       scope: {checked: '='},
-      templateUrl: 'scripts/directives/checkbox.html',
+      templateUrl: '/directives/checkbox.html',
     };
   });

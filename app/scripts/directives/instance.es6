@@ -8,6 +8,6 @@ angular.module('ec2pricesApp')
         instance: '=',
         displayConfig: '=',
       },
-      templateUrl: 'scripts/directives/instance.html'
+      templateUrl: '/directives/instance.html'
     };
   });
