@@ -2,7 +2,7 @@
 
 var gulp = require('gulp');
 
-var cloudfront = require('./cloudfront.js');
+var cloudfront = require('gulp-invalidate-cloudfront');
 var rimraf = require('rimraf');
 var awspublish = require('gulp-awspublish');
 
