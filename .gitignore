@@ -9,3 +9,4 @@ build
 coverage
 prod
 rev-manifest.json
+npm-debug.log
