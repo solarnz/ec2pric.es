@@ -30,4 +30,4 @@ require('./gulp/lint.js')(options);
 require('./gulp/serve.js')(options);
 require('./gulp/tests.js')(options);
 
-gulp.task('default', ['lint', 'js', 'html', 'copy', 'css']);
+gulp.task('default', ['lint', 'test', 'js', 'html', 'copy', 'css']);
