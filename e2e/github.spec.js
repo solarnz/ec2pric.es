@@ -5,7 +5,7 @@ describe('github banner', function() {
     browser.get('http://localhost:3000/');
   });
 
-  it('should be loaded', function() {
+  it('should load', function() {
     var list = element.all(by.css(
       'a[href="https://github.com/solarnz/ec2pric.es"]'
     ));
