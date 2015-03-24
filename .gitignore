@@ -10,3 +10,4 @@ coverage
 prod
 rev-manifest.json
 npm-debug.log
+phantomjsdriver.log
