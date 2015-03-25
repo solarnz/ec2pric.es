@@ -18,7 +18,7 @@ module.exports = function(options) {
   });
 
   gulp.task('e2e', ['e2e:protractor']);
-  gulp.task('e2e:dev', function() {
+  gulp.task('e2e:dev', ['e2e:protractor'], function() {
     gulp.watch(options.e2eSpecFiles, ['e2e:protractor']);
   });
 };
