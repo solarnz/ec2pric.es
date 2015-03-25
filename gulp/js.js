@@ -15,8 +15,10 @@ var uglify = require('gulp-uglify');
 
 module.exports = function(options) {
   gulp.task('js:dependencies', function() {
-    var files = mainBowerFiles({}, {base: 'bower_components'});
-    files.concat(options.dependantFiles);
+    var files = [].concat(
+      mainBowerFiles({}, {base: 'bower_components'}),
+      options.dependantFiles
+    );
     var pipeline =  gulp.src(files)
                         .pipe(filter(['*.js']))
                         .pipe(sourcemaps.init())
