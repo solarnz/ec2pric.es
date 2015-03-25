@@ -2,12 +2,6 @@ sudo: false
 language: node_js
 node_js:
   - '0.10'
-addons:
-  sauce_connect: true
-env:
-  global:
-    - secure: arMGPYwL6UHlkCB5GxjidVKXi9CyDjttPjyNi5BFeLco1mnJ22U6esIpRFShzaDw03uh4ERgX9H/uR2jXn8IS8bDiZgWZO72UmtTR1D3nNnJTVOIbiFNd11M4R+BvZJEO5X90axOuF+AC9LJBmIEmuDXT7LsjQF1FBB9N9mYB3c=
-    - secure: VPAZW1gqbmBX+aWUbNWK+VQQ1QwceEiKchd6swbPxa1NCQ8zS6H4VLdyPW8ja6mvj2nbb55v6i4UZiFNrrsKeFyWiKObYEGim5GSbmuPpFeYAV7q/6Z/jPLKtFX4/HpiugbN1ecC/7/VmAwF0mx94IheOHhqX+oDdxbVIKLO7yg=
 before_script:
   - 'npm install -g bower gulp-cli'
   - 'bower install'
