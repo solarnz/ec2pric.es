@@ -2,8 +2,16 @@ sudo: false
 language: node_js
 node_js:
   - '0.10'
+addons:
+  sauce_connect:
+    username: solarnz
+    access_key:
+      secure: "oZNvjt860iIgigOT3LJl5XU1KJz5gndBHX99lBij1RgQGGYTW6J0YxKdZIvoqfGL1y3AXp3k+57JiX03YBX1xXB6W9bjtlvaJw44HzadpjldtoyBrM3NYc7JpELRoTxiTnx3kpceRNhqzyYXhbBMi4L0SypTHNHUAs+E6MreVUI="
 before_script:
   - 'npm install -g bower gulp-cli'
   - 'bower install'
 script:
   - 'gulp'
+  - 'gulp serve&'
+  - 'sleep 3'
+  - 'gulp e2e'
