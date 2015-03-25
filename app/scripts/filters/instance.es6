@@ -50,7 +50,9 @@ angular.module('ec2pricesApp')
   .filter('orderInstances', ($filter) => {
     return (input, region, os) => {
       return $filter('orderBy')(input, (item) => {
-        return item.pricing[region][os];
+        /* jshint camelcase:false */
+        return [item.pricing[region][os], item.instance_type];
+        /* jshint camelcase:true */
       });
     };
   })

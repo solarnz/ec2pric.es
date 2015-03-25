@@ -81,6 +81,28 @@ describe('instance filters', () => {
       const output = filter([instanceLarge, instanceSmall], region, os);
       expect(output).toEqual([instanceSmall, instanceLarge]);
     });
+
+    describe('two instances with the same price', function() {
+      it('should order by the instance name', function() {
+      const region = 'us-east-1';
+      const os = 'linux';
+      const price = '1.000';
+
+      let instanceSmall = instanceMock();
+      instanceSmall.pricing[region][os] = price;
+
+      let instanceLarge = instanceMock();
+      instanceLarge.pricing[region][os] = price;
+
+      /* jshint camelcase:false */
+      instanceSmall.instance_type = 'm1.small';
+      instanceLarge.instance_type = 'r3.large';
+      /* jshint camelcase:true */
+
+      const output = filter([instanceLarge, instanceSmall], region, os);
+      expect(output).toEqual([instanceSmall, instanceLarge]);
+      });
+    });
   });
 
   describe('Filter memory', () => {
