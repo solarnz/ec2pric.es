@@ -22,9 +22,7 @@ function runKarma(options, karmaOptions) {
   );
 
   return gulp.src(sources)
-             .pipe(require('gulp-print')())
-             .pipe(karma(karmaOptions))
-  ;
+             .pipe(karma(karmaOptions));
 }
 
 module.exports = function(options) {
