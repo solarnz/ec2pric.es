@@ -15,4 +15,4 @@ script:
   - 'gulp'
   - 'gulp serve&'
   - 'sleep 3'
-  - 'gulp e2e'
+  - 'xvfb-run gulp e2e'
