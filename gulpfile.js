@@ -1,6 +1,7 @@
 'use strict';
 
 var gulp = require('gulp');
+var gitRev = require('git-rev');
 
 var options = {
   name: 'ec2prices',
@@ -20,7 +21,13 @@ var options = {
   normalFiles: ['app/instances.json'],
   buildDir: 'build',
   version: false,
+  buildTime: new Date().toString(),
+  nodeVersion: process.version
 };
+
+gitRev.short(function(str) {
+  options.gitRevision = str;
+});
 
 require('./gulp/copy.js')(options);
 require('./gulp/css.js')(options);
