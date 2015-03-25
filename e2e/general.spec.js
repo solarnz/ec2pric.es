@@ -2,7 +2,7 @@
 
 describe('ec2pric.es', function() {
   beforeEach(function() {
-    browser.get('http://localhost:3000/');
+    browser.get('/');
   });
 
   describe('the browser title', function() {

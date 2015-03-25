@@ -8,7 +8,7 @@ describe('filtering', function() {
   }
 
   beforeEach(function() {
-    browser.get('http://localhost:3000/');
+    browser.get('/');
   });
 
   describe('Region filter', function() {
