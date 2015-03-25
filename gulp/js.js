@@ -22,7 +22,8 @@ module.exports = function(options) {
     var pipeline =  gulp.src(files)
                         .pipe(filter(['*.js']))
                         .pipe(sourcemaps.init())
-                        .pipe(concat('vendor.js'));
+                        .pipe(concat('vendor.js'))
+                        .pipe(uglify());
 
     if (options.version) {
       pipeline = pipeline.pipe(rev());
