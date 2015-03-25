@@ -12,19 +12,19 @@ describe('filtering', function() {
   });
 
   describe('Region filter', function() {
-    var regionFilterDropdown;
+    var dropdown;
 
     beforeEach(function() {
-      regionFilterDropdown = element(by.model('displayConfig.region'));
+      dropdown = element(by.model('displayConfig.region'));
     });
 
     describe('Dropdown menu', function() {
       it('should exist', function() {
-        expect(regionFilterDropdown.isPresent()).toBeTruthy();
+        expect(dropdown.isPresent()).toBeTruthy();
       });
 
       it('should have a default value of us-east-1', function() {
-        var selectedOption = regionFilterDropdown.$('option:checked');
+        var selectedOption = dropdown.$('option:checked');
         expect(selectedOption.getText()).toBe('us-east-1 (N. Virginia)');
       });
     });
@@ -35,7 +35,7 @@ describe('filtering', function() {
 
     describe('when changing the region (to sa-east-1)', function() {
       beforeEach(function() {
-        regionFilterDropdown.$('option[value="8"]').click();
+        dropdown.$('option[value="8"]').click();
       });
 
       it('should have less instance types than the default', function() {
@@ -56,20 +56,38 @@ describe('filtering', function() {
 
   describe('Operating system filter', function() {
     var dropdown;
-    var dropdownOptions;
 
     beforeEach(function() {
       dropdown = element(by.model('displayConfig.os'));
-      dropdownOptions = element.all(by.model('displayConfig.os'));
     });
 
     describe('Dropdown menu', function() {
       it('should exist', function() {
-        expect(dropdownOptions.count()).toBe(1);
+        expect(dropdown.isPresent()).toBeTruthy();
       });
 
       it('should not filter by default', function() {
         expect(getInstanceList().count()).toBe(INSTANCE_COUNT);
+      });
+    });
+
+    describe('when changing the os (to Windows SQL)', function() {
+      beforeEach(function() {
+        dropdown.$('option[value="2"]').click();
+      });
+
+      it('should have less instance types than the default', function() {
+        expect(getInstanceList().count()).toBeLessThan(INSTANCE_COUNT);
+      });
+
+      it('should filter out instances not in the selected region', function() {
+        getInstanceList().each(function(element) {
+          var instanceName = element.$('[data-e2e-target="instanceName"]')
+          .getText();
+          instanceName.then(function(text) {
+            expect(text).not.toEqual('c1.medium');
+          });
+        });
       });
     });
   });
