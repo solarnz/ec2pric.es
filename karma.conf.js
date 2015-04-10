@@ -5,8 +5,8 @@ module.exports = function(config) {
     frameworks: ['jasmine'],
     browsers: ['PhantomJS'],
     preprocessors: {
-      '**/*.es6': ['babel'],
-      '**/!(*.spec|*.mock).{js,es6}': ['coverage'],
+      'app/**/*.js': ['babel'],
+      'app/**/!(*.spec|*.mock).js': ['coverage'],
       '**/*.htm{,l}': ['html2js']
     },
     'babelPreprocessor': {
