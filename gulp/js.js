@@ -46,12 +46,19 @@ module.exports = function(options) {
     pipe = pipe.pipe(webpack.configure({
                  useMemoryFs: true,
                  progress: true
-               }))
-               .pipe(webpack.overrides({
-                 devtool: '#source-map'
-               }))
-               .pipe(webpack.compile())
-               .pipe(webpack.format({
+               }));
+
+    if (options.version) {
+      pipe = pipe.pipe(webpack.overrides({
+        devtool: '#source-maps'
+      }));
+    } else {
+       pipe = pipe.pipe(webpack.overrides({
+        devtool: '#eval'
+      }));
+   }
+   pipe = pipe.pipe(webpack.compile())
+              .pipe(webpack.format({
                  version: true,
                  timings: true
                }))
