@@ -17,7 +17,8 @@ var options = {
   },
   normalFiles: ['app/instances.json'],
   buildDir: 'build',
-  version: false,
+  assetDir: '' + Date.now(),
+  version: true,
   buildTime: new Date().toString(),
   nodeVersion: process.version
 };
