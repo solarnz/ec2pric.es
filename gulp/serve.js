@@ -5,7 +5,7 @@ var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 
 module.exports = function(options) {
-  gulp.task('serve', ['js', 'html', 'copy', 'css'], function() {
+  gulp.task('serve', ['js', 'html', 'css'], function() {
     browserSync({
       open: false,
       server: {
