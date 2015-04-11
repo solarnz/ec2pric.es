@@ -7,7 +7,7 @@
         return {
           restrict: 'E',
           scope: {checked: '='},
-          templateUrl: '/directives/checkbox.html',
+          template: require('./checkbox.html'),
         };
       });
   };

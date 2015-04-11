@@ -10,7 +10,7 @@
             instance: '=',
             displayConfig: '=',
           },
-          templateUrl: '/directives/instance.html'
+          template: require('./instance.html'),
         };
       });
   };

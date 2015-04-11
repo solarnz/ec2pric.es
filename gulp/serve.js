@@ -5,7 +5,7 @@ var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 
 module.exports = function(options) {
-  gulp.task('serve', ['copy', 'js', 'html'], function() {
+  gulp.task('serve', ['js', 'html', 'copy', 'css'], function() {
     browserSync({
       open: false,
       server: {
@@ -14,7 +14,7 @@ module.exports = function(options) {
     });
 
     gulp.watch(['app/**/*!(spec|mock).{js,es6}', 'app/scripts/**/*.htm{,l}'],
-               ['js:src', reload]);
+               ['js:webpack', reload]);
     gulp.watch(['app/styles/**/*.css'], ['css:src', reload]);
     gulp.watch(['./bower.json'], ['js', 'css', reload]);
     gulp.watch(options.views.src, ['html', reload]);

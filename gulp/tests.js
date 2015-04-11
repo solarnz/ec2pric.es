@@ -15,8 +15,7 @@ function runKarma(options, karmaOptions) {
   var sources = [].concat(
     mainBowerFiles({includeDev: true}),
     options.dependantFiles,
-    options.mainFiles,
-    options.templateFiles,
+    'app/scripts/app.js',
     options.specFiles,
     '!**/*.{less,eot,woff,woff2,svg,ttf}'
   );

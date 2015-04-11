@@ -2,16 +2,13 @@
 
 var gulp = require('gulp');
 
-var babel = require('gulp-babel');
 var concat = require('gulp-concat');
 var filter = require('gulp-filter');
 var mainBowerFiles = require('main-bower-files');
-var minifyHtml = require('gulp-minify-html');
-var ngHtml2Js = require('gulp-ng-html2js');
 var rev = require('gulp-rev');
 var sourcemaps = require('gulp-sourcemaps');
-var streamqueue = require('streamqueue');
 var uglify = require('gulp-uglify');
+var webpack = require('gulp-webpack-build');
 
 module.exports = function(options) {
   gulp.task('js:dependencies', function() {
@@ -44,43 +41,31 @@ module.exports = function(options) {
     return pipeline;
   });
 
-  gulp.task('js:src', function() {
-    var html = gulp.src(options.templateFiles)
-                   .pipe(minifyHtml({
-                     empty: true,
-                     spare: true,
-                     quotes: true
-                   }))
-                   .pipe(ngHtml2Js({
-                     moduleName: 'ec2pricesApp',
-                     prefix: '/'
-                   }))
-                   .pipe(concat('partials.min.js'));
-
-    var js = gulp.src(options.mainFiles);
-
-    var pipeline = streamqueue({objectMode: true}, js, html)
-      .pipe(sourcemaps.init())
-      .pipe(babel({experimental: true}))
-      .pipe(concat(options.name + '.js'));
-    if (options.version) {
-      pipeline = pipeline.pipe(rev());
-    }
-
-    pipeline = pipeline.pipe(sourcemaps.write('./'))
-                       .pipe(gulp.dest(options.buildDir));
+  gulp.task('js:webpack', function() {
+    var pipe = gulp.src('webpack.config.js');
+    pipe = pipe.pipe(webpack.configure({
+                 useMemoryFs: true,
+                 progress: true
+               }))
+               .pipe(webpack.overrides({
+                 devtool: '#source-map'
+               }))
+               .pipe(webpack.compile())
+               .pipe(webpack.format({
+                 version: true,
+                 timings: true
+               }))
+               .pipe(webpack.failAfter({
+                 errors: true,
+                 warnings: true
+               }));
 
     if (options.version) {
-      pipeline = pipeline.pipe(rev.manifest({
-        base: options.buildDir,
-        merge: true // merge with the existing manifest (if one exists)
-      }));
+      pipe = pipe.pipe(rev());
     }
 
-    pipeline = pipeline.pipe(gulp.dest(options.buildDir));
-
-    return pipeline;
+    return pipe.pipe(gulp.dest(options.buildDir));
   });
 
-  gulp.task('js', ['js:dependencies', 'js:src']);
+  gulp.task('js', ['js:dependencies', 'js:webpack']);
 };

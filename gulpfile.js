@@ -6,11 +6,8 @@ var gitRev = require('git-rev');
 var options = {
   name: 'ec2prices',
   dependantFiles: ['node_modules/babel/browser-polyfill.js'],
-  mainFiles: [
-    'app/scripts/app.js',
-    'app/scripts/**/!(*.spec|*.mock).js'
-  ],
-  templateFiles: ['app/scripts/**/*.htm{,l}'],
+  mainFiles: [],
+  templateFiles: [],
   e2eSpecFiles: ['e2e/**.spec.js'],
   specFiles: ['app/scripts/**/*.{spec,mock}.js'],
 

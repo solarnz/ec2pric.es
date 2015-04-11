@@ -28,7 +28,7 @@
 
       $routeProvider
         .when('/', {
-          templateUrl: '/main.html',
+          template: require('./main.html'),
           controller: 'MainController'
         })
         .otherwise({
@@ -37,12 +37,9 @@
     });
   };
 
-  if (typeof module !== 'undefined' && module && module.exports) {
-    module.exports = function() {
-      var angular = require('angular');
-      return app(angular);
-    };
-  } else {
-    app(angular);
-  }
+  app(angular);
+  require('./controllers')(angular);
+  require('./directives')(angular);
+  require('./factories')(angular);
+  require('./filters')(angular);
 }());
