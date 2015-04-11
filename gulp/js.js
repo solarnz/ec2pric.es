@@ -71,7 +71,19 @@ module.exports = function(options) {
       pipe = pipe.pipe(rev());
     }
 
-    return pipe.pipe(gulp.dest(options.buildDir));
+    pipe = pipe.pipe(gulp.dest(options.buildDir));
+
+    if (options.version) {
+      pipe = pipe.pipe(rev.manifest({
+        base: options.buildDir,
+        merge: true // merge with the existing manifest (if one exists)
+      }));
+    }
+
+    pipe = pipe.pipe(gulp.dest(options.buildDir));
+
+    return pipe;
+
   });
 
   gulp.task('js', ['js:dependencies', 'js:webpack']);
