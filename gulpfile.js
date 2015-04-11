@@ -7,12 +7,12 @@ var options = {
   name: 'ec2prices',
   dependantFiles: ['node_modules/babel/browser-polyfill.js'],
   mainFiles: [
-    'app/scripts/app.es6',
-    'app/scripts/**/!(*.spec|*.mock).{js,es6}'
+    'app/scripts/app.js',
+    'app/scripts/**/!(*.spec|*.mock).js'
   ],
   templateFiles: ['app/scripts/**/*.htm{,l}'],
-  e2eSpecFiles: ['e2e/**.spec.{es6,js}'],
-  specFiles: ['app/scripts/**/*.{spec,mock}.es6'],
+  e2eSpecFiles: ['e2e/**.spec.js'],
+  specFiles: ['app/scripts/**/*.{spec,mock}.js'],
 
   views: {
     src: ['app/views/{,*/}*.htm{,l}'],
