@@ -4,17 +4,10 @@
   var factory = function(angular) {
     angular.module('ec2pricesApp')
     .factory('instancesFactory', ($http, $q) => {
-      let cachedData = null;
+      let cachedData = require('json!../../instances.json');
 
       let getInstances = () => {
-        if (cachedData) {
-          return $q.when(cachedData);
-        }
-
-        return $http.get('/instances.json').then((data) => {
-          cachedData = data.data;
-          return data.data;
-        });
+        return $q.when(cachedData);
       };
 
       return {

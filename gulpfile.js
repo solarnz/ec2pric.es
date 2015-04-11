@@ -26,7 +26,6 @@ gitRev.short(function(str) {
   options.gitRevision = str;
 });
 
-require('./gulp/copy.js')(options);
 require('./gulp/css.js')(options);
 require('./gulp/deploy.js')(options);
 require('./gulp/e2e.js')(options);
