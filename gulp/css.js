@@ -1,7 +1,5 @@
 'use strict';
 
-var path = require('path');
-
 var gulp = require('gulp');
 
 var concat = require('gulp-concat');
@@ -16,7 +14,7 @@ module.exports = function(options) {
                .pipe(sourcemaps.init())
                .pipe(concat('vendor.css'))
                .pipe(sourcemaps.write('./'))
-               .pipe(gulp.dest(path.join(options.buildDir, options.assetDir)));
+               .pipe(gulp.dest(options.buildDir));
   });
 
   gulp.task('css:src', function() {
@@ -24,7 +22,7 @@ module.exports = function(options) {
                .pipe(sourcemaps.init())
                .pipe(concat(options.name + '.css'))
                .pipe(sourcemaps.write('./'))
-               .pipe(gulp.dest(path.join(options.buildDir, options.assetDir)));
+               .pipe(gulp.dest(options.buildDir));
 
   });
 

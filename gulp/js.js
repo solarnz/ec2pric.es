@@ -1,7 +1,6 @@
 'use strict';
 
 var gulp = require('gulp');
-var path = require('path');
 
 var concat = require('gulp-concat');
 var filter = require('gulp-filter');
@@ -22,7 +21,7 @@ module.exports = function(options) {
                .pipe(concat('vendor.js'))
                .pipe(uglify())
                .pipe(sourcemaps.write('./'))
-               .pipe(gulp.dest(path.join(options.buildDir, options.assetDir)));
+               .pipe(gulp.dest(options.buildDir));
   });
 
   gulp.task('js:webpack', function() {
@@ -51,7 +50,7 @@ module.exports = function(options) {
                  warnings: true
                }));
 
-    pipe = pipe.pipe(gulp.dest(path.join(options.buildDir, options.assetDir)));
+    pipe = pipe.pipe(gulp.dest(options.buildDir));
     return pipe;
 
   });
